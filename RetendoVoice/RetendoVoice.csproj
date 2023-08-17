@@ -23,8 +23,13 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="JsonModelBinder" Version="2.1.1" />
     <PackageReference Include="SakurWebApiUtilities" Version="1.0.0" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\script-runner\ScriptRunner\ScriptRunner.csproj" />
   </ItemGroup>
 
 </Project>

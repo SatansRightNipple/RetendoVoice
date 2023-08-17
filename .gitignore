@@ -2,6 +2,6 @@
 /RetendoVoice/Properties/launchSettings.json
 /RetendoVoice/bin/*
 /RetendoVoice/obj/*
-RetendoVoice/Properties/launchSettings.json
-RetendoVoice/bin/*
-RetendoVoice/obj/*
+/TestResults
+/RetendoVoiceTests/bin/*
+/RetendoVoiceTests/obj/*

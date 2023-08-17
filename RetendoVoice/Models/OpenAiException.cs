@@ -9,7 +9,6 @@ namespace RetendoVoice.Models
         public OpenAiException(string message, HttpStatusCode httpStatusCode) : base(message) 
         {
             StatusCode = httpStatusCode;
-
         }
     }
 }

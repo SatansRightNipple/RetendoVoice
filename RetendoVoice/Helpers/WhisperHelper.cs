@@ -41,7 +41,7 @@ namespace RetendoVoice.Helpers
                 if (!response.IsSuccessStatusCode) 
                     throw new OpenAiException(json, response.StatusCode);
 
-                SpeechToTextResponse result = SpeechToTextResponse.FromJson(json);
+                SpeechToTextResponse? result = SpeechToTextResponse.FromJson(json);
 
                 if (result == null)
                     throw new Exception("WTH Json is it null?!");
