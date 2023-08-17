@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
+using RetendoVoice.Models;
 using System.Net.Http;
 
 namespace RetendoVoice.Helpers
@@ -10,7 +11,7 @@ namespace RetendoVoice.Helpers
         {
             get
             {
-                if (_instance == null) 
+                if (_instance == null)
                     _instance = new WhisperHelper();
                 return _instance;
             }
@@ -25,7 +26,7 @@ namespace RetendoVoice.Helpers
             http = CreateHttpClient();
         }
 
-        public async Task<string> SpeechToText(byte[] audioBytes)
+        public async Task<SpeechToTextResponse> SpeechToText(byte[] audioBytes)
         {
             string whisperUrl = "https://api.openai.com/v1/audio/transcriptions";
 
@@ -35,10 +36,17 @@ namespace RetendoVoice.Helpers
                 content.Add(new StringContent("whisper-1"), "model");
 
                 HttpResponseMessage response = await http.PostAsync(whisperUrl, content);
-                string responseText = await response.Content.ReadAsStringAsync();
-                dynamic responseJson = JsonConvert.DeserializeObject<dynamic>(responseText);
+                string json = await response.Content.ReadAsStringAsync();
 
-                return responseJson.text;
+                if (!response.IsSuccessStatusCode) 
+                    throw new OpenAiException(json, response.StatusCode);
+
+                SpeechToTextResponse result = SpeechToTextResponse.FromJson(json);
+
+                if (result == null)
+                    throw new Exception("WTH Json is it null?!");
+
+                return result;
             }
         }
 
@@ -55,10 +63,10 @@ namespace RetendoVoice.Helpers
         {
             HttpClient result = new HttpClient();
             string? apiKey = Environment.GetEnvironmentVariable("OPEN_AI_API_KEY");
+
             if (apiKey == null)
-            {
                 throw new ArgumentNullException("missing open AI API key");
-            }
+
             result.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", apiKey);
             return result;
         }
