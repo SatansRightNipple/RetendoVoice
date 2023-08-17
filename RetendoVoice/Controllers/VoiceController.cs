@@ -36,7 +36,9 @@ namespace RetendoVoice.Controllers
             completionParameter.AddUserMessage(userSpeech.Text);
             CompletionResult result = await openAi.CompleteAsync(completionParameter);
 
-            return new ParseVoiceResult(result.GetFunctionCalls().FirstOrDefault(), userSpeech.Text);
+            List<FunctionCall> listOfFunctionCalls = result.GetFunctionCalls();
+
+            return new ParseVoiceResult(result.GetFunctionCalls(), userSpeech.Text);
         }
     }
 }
