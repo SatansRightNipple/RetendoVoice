@@ -4,16 +4,13 @@ namespace RetendoVoice.Models
 {
     public class ParseVoiceResult
     {
-        public List<RetendoFunctionCall>? ListOfFunctions { get; set; }
+        public RetendoFunctionCall? FunctionCall { get; set; }
         public string RawText { get; set; }
 
-        public ParseVoiceResult(List<FunctionCall>? listOfFunctions, string rawText)
+        public ParseVoiceResult(FunctionCall? functionCall, string rawText)
         {
-            ListOfFunctions = new List<RetendoFunctionCall>();
-
-            if (listOfFunctions != null)
-                foreach (FunctionCall function in listOfFunctions) 
-                    ListOfFunctions.Add(new RetendoFunctionCall(function));
+            if (functionCall != null)
+                FunctionCall = new RetendoFunctionCall(functionCall);
 
             RawText = rawText;
         }
